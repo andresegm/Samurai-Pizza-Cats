@@ -1,4 +1,5 @@
 import { Document } from 'mongodb';
+import { pizzas } from 'scripts/initial-data';
 import { Pizza } from '../application/providers/pizzas/pizza.provider.types';
 
 interface PizzaDocument extends Document, Omit<Pizza, 'id'> {}
@@ -8,6 +9,8 @@ const toPizzaObject = (pizza: PizzaDocument): Pizza => {
     id: pizza._id.toHexString(),
     name: pizza.name,
     description: pizza.description,
+    toppingIds: pizza.toppingIds,
+    imgSrc: pizza.imgSrc,
   };
 };
 

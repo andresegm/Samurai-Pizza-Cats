@@ -1,5 +1,7 @@
 export interface Pizza {
   id: string;
   name: string;
-  description: number;
+  description: string;
+  toppingIds: string;
+  imgSrc: string;
 }
