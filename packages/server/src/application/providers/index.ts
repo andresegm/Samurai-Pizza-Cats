@@ -8,5 +8,4 @@ const db = setupDb();
 const toppingProvider = new ToppingProvider(db.collection('toppings'));
 const pizzaProvider = new PizzaProvider(db.collection('pizzas'));
 
-export { toppingProvider };
-export { pizzaProvider };
+export { toppingProvider, pizzaProvider };

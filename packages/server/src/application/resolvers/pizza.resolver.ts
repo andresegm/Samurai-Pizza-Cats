@@ -1,5 +1,3 @@
-import { Pizza } from '../schema/types/schema';
-import { Root } from '../schema/types/types';
 import { pizzaProvider } from '../providers/index';
 
 const pizzaResolver = {
