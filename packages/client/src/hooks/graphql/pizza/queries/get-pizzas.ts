@@ -5,13 +5,9 @@ const GET_PIZZAS = gql`
     pizzas {
       name
       description
-      toppings {
-        name
-        priceCents
-        id
-      }
       id
       imgSrc
+      toppingIds
     }
   }
 `;
