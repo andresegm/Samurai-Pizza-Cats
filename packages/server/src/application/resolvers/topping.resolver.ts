@@ -1,11 +1,18 @@
 import { CreateToppingInput, DeleteToppingInput, Topping, UpdateToppingInput } from '../schema/types/schema';
 import { Root } from '../schema/types/types';
 import { toppingProvider } from '../providers';
+import { Pizza } from '../schema/types/schema';
 
 const toppingResolver = {
   Query: {
     toppings: async (): Promise<Topping[]> => {
       return toppingProvider.getToppings();
+    },
+  },
+
+  Pizza: {
+    toppings: async (parent: Pizza): Promise<Topping[]> => {
+      return toppingProvider.getToppingsById(parent.toppingIds);
     },
   },
 
