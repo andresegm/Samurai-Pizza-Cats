@@ -4,5 +4,5 @@ export interface Pizza {
   description: string;
   toppingIds: string[];
   imgSrc: string;
-  toppings: object[];
+  toppings: Array<any>;
 }
