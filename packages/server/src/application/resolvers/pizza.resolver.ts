@@ -1,6 +1,6 @@
 import { pizzaProvider } from '../providers/index';
 import { Pizza as SchemaPizza } from '../schema/types/schema';
-export type Pizza = Omit<SchemaPizza, 'toppings'> & { toppingIds: string[] };
+export type Pizza = Omit<SchemaPizza, 'toppings' | 'priceCents'> & { toppingIds: string[] };
 
 const pizzaResolver = {
   Query: {
