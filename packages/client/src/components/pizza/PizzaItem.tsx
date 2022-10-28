@@ -1,5 +1,6 @@
 import { Pizza } from '../../types';
 import CardItem from '../common/CardItem';
+import toDollars from '../../lib/format-dollars';
 
 export interface PizzaItemProps {
   pizza: Pizza;
@@ -17,6 +18,7 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza }) => {
       <p>{pizza.description}</p>
       <p>toppings: {pizzaToppings(pizza)}</p>
       <p>pizza id: {pizza.id}</p>
+      <p>price: {toDollars(pizza.priceCents)} </p>
     </CardItem>
   );
 };
