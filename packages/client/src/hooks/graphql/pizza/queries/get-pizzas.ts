@@ -13,7 +13,6 @@ const GET_PIZZAS = gql`
       }
       id
       imgSrc
-      toppingIds
     }
   }
 `;
