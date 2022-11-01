@@ -61,12 +61,21 @@ class ToppingProvider {
     return toToppingObject(topping);
   }
 
-  public async getToppingsById(toppingIds: string[]): Promise<Topping[]> {
+  public async getToppingsById(toppingIds: ObjectId[]): Promise<Topping[]> {
     const toppingsById = await this.collection
       .find({ _id: { $in: toppingIds } })
       .sort({ name: 1 })
       .toArray();
     return toppingsById.map(toToppingObject);
+  }
+
+  public async validateToppings(toppingIds: ObjectId[]): Promise<void> {
+    const ids = toppingIds.map((id) => new ObjectId(id));
+    const toppings = await this.getToppingsById(ids);
+
+    if (toppings.length !== ids.length) {
+      throw new Error(`Could not find all toppings`);
+    }
   }
 
   public async getPriceCents(toppingIds: string[]): Promise<Number> {
