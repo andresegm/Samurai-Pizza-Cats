@@ -16,3 +16,11 @@ export interface CreatePizzaInput {
   imgSrc: string;
   toppingIds: ObjectId[];
 }
+
+export interface UpdatePizzaInput {
+  id: string;
+  name: string;
+  description: string;
+  toppingIds: ObjectId[];
+  imgSrc: string;
+}

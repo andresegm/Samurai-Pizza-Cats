@@ -35,6 +35,7 @@ export type Mutation = {
   createPizza: Pizza;
   createTopping: Topping;
   deleteTopping: Scalars['ObjectID'];
+  updatePizza: Pizza;
   updateTopping: Topping;
 };
 
@@ -48,6 +49,10 @@ export type MutationCreateToppingArgs = {
 
 export type MutationDeleteToppingArgs = {
   input: DeleteToppingInput;
+};
+
+export type MutationUpdatePizzaArgs = {
+  input: UpdatePizzaInput;
 };
 
 export type MutationUpdateToppingArgs = {
@@ -80,6 +85,14 @@ export type Topping = {
 
 export type ToppingQueryArgs = {
   id: Scalars['ObjectID'];
+};
+
+export type UpdatePizzaInput = {
+  description: Scalars['String'];
+  id: Scalars['ObjectID'];
+  imgSrc: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
+  toppingIds: Array<Scalars['ObjectID']>;
 };
 
 export type UpdateToppingInput = {
