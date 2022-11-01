@@ -91,7 +91,7 @@ export type UpdatePizzaInput = {
   description: Scalars['String'];
   id: Scalars['ObjectID'];
   imgSrc: Scalars['String'];
-  name?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   toppingIds: Array<Scalars['ObjectID']>;
 };
 
