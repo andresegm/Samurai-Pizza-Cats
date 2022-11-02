@@ -75,7 +75,11 @@ class ToppingProvider {
     const toppingIdsArray = toppings.map((topping) => topping.id);
     for (let i = 0; i < ids.length; i++) {
       if (!toppingIdsArray.includes(ids[i])) {
-        throw new Error('Could not find topping');
+        try {
+          throw new Error('Could not find topping');
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
   }
