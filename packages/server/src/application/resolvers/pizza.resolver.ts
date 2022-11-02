@@ -1,6 +1,6 @@
 import { pizzaProvider } from '../providers/index';
 import { Root } from '../schema/types/types';
-import { CreatePizzaInput, UpdatePizzaInput, Pizza as SchemaPizza } from '../schema/types/schema';
+import { CreatePizzaInput, UpdatePizzaInput, DeletePizzaInput, Pizza as SchemaPizza } from '../schema/types/schema';
 export type Pizza = Omit<SchemaPizza, 'toppings' | 'priceCents'> & { toppingIds: string[] };
 
 const pizzaResolver = {
@@ -17,6 +17,10 @@ const pizzaResolver = {
 
     updatePizza: async (_: Root, args: { input: UpdatePizzaInput }): Promise<Pizza> => {
       return pizzaProvider.updatePizza(args.input);
+    },
+
+    deletePizza: async (_: Root, args: { input: DeletePizzaInput }): Promise<string> => {
+      return pizzaProvider.deletePizza(args.input.id);
     },
   },
 };

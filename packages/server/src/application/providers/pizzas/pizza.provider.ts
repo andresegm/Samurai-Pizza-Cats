@@ -69,6 +69,22 @@ class PizzaProvider {
 
     return toPizzaObject(pizza);
   }
+
+  public async deletePizza(id: string): Promise<string> {
+    const pizzaId = new ObjectId(id);
+
+    const pizzaData = await this.collection.findOneAndDelete({
+      _id: pizzaId,
+    });
+
+    const pizza = pizzaData.value;
+
+    if (!pizza) {
+      throw new Error(`Could not delete the pizza`);
+    }
+
+    return id;
+  }
 }
 
 export { PizzaProvider };
