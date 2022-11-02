@@ -29,10 +29,10 @@ const typeDefs = gql`
 
   input UpdatePizzaInput {
     id: ObjectID!
-    name: String!
-    description: String!
-    toppingIds: [ObjectID!]!
-    imgSrc: String!
+    name: String
+    description: String
+    toppingIds: [ObjectID!]
+    imgSrc: String
   }
 `;
 

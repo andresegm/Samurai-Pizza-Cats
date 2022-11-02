@@ -19,8 +19,8 @@ export interface CreatePizzaInput {
 
 export interface UpdatePizzaInput {
   id: string;
-  name: string;
-  description: string;
-  toppingIds: ObjectId[];
-  imgSrc: string;
+  name?: string | null;
+  description?: string | null;
+  toppingIds?: ObjectId[] | null;
+  imgSrc?: string | null;
 }
