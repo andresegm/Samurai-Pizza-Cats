@@ -18,6 +18,7 @@ const typeDefs = gql`
   type Mutation {
     createPizza(input: CreatePizzaInput!): Pizza!
     updatePizza(input: UpdatePizzaInput!): Pizza!
+    deletePizza(input: DeletePizzaInput!): ObjectID!
   }
 
   input CreatePizzaInput {
@@ -25,6 +26,10 @@ const typeDefs = gql`
     description: String!
     imgSrc: String!
     toppingIds: [ObjectID!]!
+  }
+
+  input DeletePizzaInput {
+    id: ObjectID!
   }
 
   input UpdatePizzaInput {

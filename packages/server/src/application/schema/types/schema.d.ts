@@ -26,6 +26,10 @@ export type CreateToppingInput = {
   priceCents: Scalars['Int'];
 };
 
+export type DeletePizzaInput = {
+  id: Scalars['ObjectID'];
+};
+
 export type DeleteToppingInput = {
   id: Scalars['ObjectID'];
 };
@@ -34,6 +38,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createPizza: Pizza;
   createTopping: Topping;
+  deletePizza: Scalars['ObjectID'];
   deleteTopping: Scalars['ObjectID'];
   updatePizza: Pizza;
   updateTopping: Topping;
@@ -45,6 +50,10 @@ export type MutationCreatePizzaArgs = {
 
 export type MutationCreateToppingArgs = {
   input: CreateToppingInput;
+};
+
+export type MutationDeletePizzaArgs = {
+  input: DeletePizzaInput;
 };
 
 export type MutationDeleteToppingArgs = {
