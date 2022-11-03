@@ -70,18 +70,13 @@ class ToppingProvider {
   }
 
   public async validateToppings(toppingIds: ObjectId[]): Promise<void> {
-    const ids = toppingIds.map((id) => id.toString());
     const toppings = await this.getToppings();
     const toppingIdsArray = toppings.map((topping) => topping.id);
-    for (let i = 0; i < ids.length; i++) {
-      if (!toppingIdsArray.includes(ids[i])) {
-        try {
-          throw new Error('Could not find topping');
-        } catch (e) {
-          console.log(e);
-        }
+    toppingIds.map((id) => {
+      if (!toppingIdsArray.includes(id.toString())) {
+        throw new Error(`Could not find topping with id ${id}`);
       }
-    }
+    });
   }
 
   public async getPriceCents(toppingIds: string[]): Promise<Number> {
