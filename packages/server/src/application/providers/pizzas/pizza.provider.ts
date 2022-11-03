@@ -15,7 +15,7 @@ class PizzaProvider {
   public async createPizza(input: CreatePizzaInput): Promise<Pizza> {
     const { name, description, imgSrc, toppingIds } = input;
     validateStringInputs([name, description, imgSrc]);
-    toppingProvider.validateToppings(toppingIds);
+    await toppingProvider.validateToppings(toppingIds);
 
     const toppings = toppingIds.map((id) => new ObjectId(id));
 
@@ -47,7 +47,7 @@ class PizzaProvider {
     if (name) validateStringInputs(name);
     if (description) validateStringInputs(description);
     if (imgSrc) validateStringInputs(imgSrc);
-    if (toppingIds) toppingProvider.validateToppings(toppingIds);
+    if (toppingIds) await toppingProvider.validateToppings(toppingIds);
 
     const data = await this.collection.findOneAndUpdate(
       { _id: new ObjectId(id) },
