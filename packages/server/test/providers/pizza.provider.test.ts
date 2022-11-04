@@ -91,4 +91,40 @@ describe('pizzaProvider', (): void => {
       expect(result).toEqual(mockPizza.id);
     });
   });
+
+  describe('updatePizza', (): void => {
+    const validPizza = createMockPizzaDocument({
+      name: 'test pizza',
+      description: 'testing',
+      imgSrc: 'imageAddress',
+      toppingIds: [new ObjectId()],
+    });
+    beforeEach(() => {
+      reveal(stubPizzaCollection).findOneAndUpdate.mockImplementation(() => ({ value: validPizza }));
+    });
+
+    test('should call findOneAndUpdate once', async () => {
+      await pizzaProvider.updatePizza({
+        id: validPizza.id,
+        name: validPizza.name,
+        description: validPizza.description,
+        imgSrc: validPizza.imgSrc,
+        toppingIds: validPizza.toppingIds,
+      });
+
+      expect(stubPizzaCollection.findOneAndUpdate).toHaveBeenCalledTimes(1);
+    });
+
+    test('should return a pizza', async () => {
+      const result = await pizzaProvider.updatePizza({
+        id: validPizza.id,
+        name: validPizza.name,
+        description: validPizza.description,
+        imgSrc: validPizza.imgSrc,
+        toppingIds: validPizza.toppingIds,
+      });
+
+      expect(result).toEqual(toPizzaObject(validPizza));
+    });
+  });
 });
