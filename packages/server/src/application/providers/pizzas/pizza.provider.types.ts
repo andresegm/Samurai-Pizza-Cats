@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import { Topping } from 'src/application/schema/types/schema';
 
 export interface Pizza {
   id: string;
@@ -6,7 +7,7 @@ export interface Pizza {
   description: string;
   toppingIds: string[];
   imgSrc: string;
-  toppings: ObjectId[];
+  toppings: Topping[];
   priceCents: number;
 }
 
