@@ -1,4 +1,4 @@
-import { Collection } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 
 import { reveal, stub } from 'jest-auto-stub';
 import { ToppingProvider } from '../../src/application/providers/toppings/topping.provider';
@@ -33,6 +33,38 @@ describe('pizzaProvider', (): void => {
       const result = await pizzaProvider.getPizzas();
 
       expect(result).toEqual([mockPizza]);
+    });
+  });
+  describe('createPizza', (): void => {
+    const validPizza = createMockPizzaDocument({
+      name: 'test pizza',
+      description: 'testing',
+      imgSrc: 'imageAddress',
+      toppingIds: [new ObjectId()],
+    });
+    beforeEach(() => {
+      reveal(stubPizzaCollection).findOneAndUpdate.mockImplementation(() => ({ value: validPizza }));
+    });
+    test('should call findOneAndUpdate once', async () => {
+      await pizzaProvider.createPizza({
+        name: validPizza.name,
+        description: validPizza.description,
+        imgSrc: validPizza.imgSrc,
+        toppingIds: validPizza.toppingIds,
+      });
+
+      expect(stubPizzaCollection.findOneAndUpdate).toHaveBeenCalledTimes(1);
+    });
+
+    test('should return a pizza when passed valid input', async () => {
+      const result = await pizzaProvider.createPizza({
+        name: validPizza.name,
+        description: validPizza.description,
+        imgSrc: validPizza.imgSrc,
+        toppingIds: validPizza.toppingIds,
+      });
+
+      expect(result).toEqual(toPizzaObject(validPizza));
     });
   });
 });
