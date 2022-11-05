@@ -5,7 +5,7 @@ interface PizzaDocument extends Document, Omit<Pizza, 'id'> {}
 
 const toPizzaObject = (pizza: PizzaDocument): Pizza => {
   return {
-    id: pizza._id.toHexString(),
+    id: pizza._id,
     name: pizza.name,
     description: pizza.description,
     toppingIds: pizza.toppingIds,

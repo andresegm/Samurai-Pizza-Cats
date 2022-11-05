@@ -2,10 +2,10 @@ import { Collection, ObjectId } from 'mongodb';
 import { PizzaDocument, toPizzaObject } from '../../../entities/pizza';
 import { CreatePizzaInput, UpdatePizzaInput, Pizza } from './pizza.provider.types';
 import validateStringInputs from '../../../lib/string-validator';
-import { toppingProvider } from '..';
+import { ToppingProvider } from '../toppings/topping.provider';
 
 class PizzaProvider {
-  constructor(private collection: Collection<PizzaDocument>) {}
+  constructor(private collection: Collection<PizzaDocument>, private toppingProvider: ToppingProvider) {}
 
   public async getPizzas(): Promise<Pizza[]> {
     const pizzas = await this.collection.find().sort({ name: 1 }).toArray();
@@ -15,7 +15,7 @@ class PizzaProvider {
   public async createPizza(input: CreatePizzaInput): Promise<Pizza> {
     const { name, description, imgSrc, toppingIds } = input;
     validateStringInputs([name, description, imgSrc]);
-    await toppingProvider.validateToppings(toppingIds);
+    await this.toppingProvider.validateToppings(toppingIds);
 
     const toppings = toppingIds.map((id) => new ObjectId(id));
 
@@ -47,7 +47,7 @@ class PizzaProvider {
     if (name) validateStringInputs(name);
     if (description) validateStringInputs(description);
     if (imgSrc) validateStringInputs(imgSrc);
-    if (toppingIds) await toppingProvider.validateToppings(toppingIds);
+    if (toppingIds) await this.toppingProvider.validateToppings(toppingIds);
 
     const data = await this.collection.findOneAndUpdate(
       { _id: new ObjectId(id) },
