@@ -9,6 +9,11 @@ import PageHeader from '../common/PageHeader';
 import PizzaItem from './PizzaItem';
 
 const Pizzas: React.FC = () => {
+  const [selectedPizza, setSelectedPizza] = React.useState<Partial<Pizza>>();
+  function selectPizza(pizza?: Pizza): void {
+    setSelectedPizza(pizza);
+  }
+
   const { loading, error, data } = useQuery(GET_PIZZAS);
 
   if (error) {
@@ -20,7 +25,9 @@ const Pizzas: React.FC = () => {
     return <CardItemSkeleton data-testid="pizza-list-loading" />;
   }
 
-  const PizzaList = data?.pizzas.map((pizza: Pizza) => <PizzaItem key={pizza.id} pizza={pizza} />);
+  const PizzaList = data?.pizzas.map((pizza: Pizza) => (
+    <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} onClick={selectPizza} />
+  ));
 
   return (
     <Grid>
