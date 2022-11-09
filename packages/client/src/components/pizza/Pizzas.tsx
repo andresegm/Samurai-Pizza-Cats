@@ -16,7 +16,6 @@ const Pizzas: React.FC = () => {
   function selectPizza(pizza?: Pizza): void {
     setSelectedPizza(pizza);
     setOpen(true);
-    console.log(pizza?.name); //not selecting the pizza correctly
   }
 
   const { loading, error, data } = useQuery(GET_PIZZAS);

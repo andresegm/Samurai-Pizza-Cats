@@ -78,6 +78,13 @@ const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: PizzaMod
               defaultValue={selectedPizza?.description}
               onChange={(event): void => setSelectedPizza({ ...selectedPizza, description: event.target.value })}
             />
+            <TextField
+              id="imgSrc-input"
+              label="Pizza's Image Source "
+              type="string"
+              defaultValue={selectedPizza?.imgSrc}
+              onChange={(event): void => setSelectedPizza({ ...selectedPizza, imgSrc: event.target.value })}
+            />
             <IconButton
               edge="end"
               aria-label="update"
