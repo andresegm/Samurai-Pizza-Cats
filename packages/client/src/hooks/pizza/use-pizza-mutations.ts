@@ -3,19 +3,19 @@ import { useMutation } from '@apollo/client';
 
 import { GET_PIZZAS } from '../graphql/pizza/queries/get-pizzas';
 import { CREATE_PIZZA } from '../graphql/pizza/mutations/create-pizza';
-//import { DELETE_TOPPING } from '../graphql/topping/mutations/delete-topping';
-//import { UPDATE_TOPPING } from '../graphql/topping/mutations/update-topping';
+import { DELETE_PIZZA } from '../graphql/pizza/mutations/delete-pizza';
+import { UPDATE_PIZZA } from '../graphql/pizza/mutations/update-pizza';
 
 interface UsePizzaMutationsOutput {
   onCreatePizza: (selectedPizza: any) => void;
-  //onDeleteTopping: (selectedTopping: any) => Promise<void>;
-  //onUpdateTopping: (selectedTopping: any) => void;
+  onDeletePizza: (selectedPizza: any) => Promise<void>;
+  onUpdatePizza: (selectedPizza: any) => void;
 }
 
 const usePizzaMutations = (): UsePizzaMutationsOutput => {
   const [createPizza] = useMutation(CREATE_PIZZA, { refetchQueries: [GET_PIZZAS, 'Pizzas'] });
-  // const [deleteTopping] = useMutation(DELETE_TOPPING, { refetchQueries: [GET_TOPPINGS, 'Toppings'] });
-  //const [updateTopping] = useMutation(UPDATE_TOPPING);
+  const [deletePizza] = useMutation(DELETE_PIZZA, { refetchQueries: [GET_PIZZAS, 'Pizzas'] });
+  const [updatePizza] = useMutation(UPDATE_PIZZA);
 
   const onCreatePizza = useCallback(
     (selectedPizza) => {
@@ -36,14 +36,14 @@ const usePizzaMutations = (): UsePizzaMutationsOutput => {
     },
     [createPizza]
   );
-  /*
-  const onDeleteTopping = useCallback(
-    async (selectedTopping) => {
+
+  const onDeletePizza = useCallback(
+    async (selectedPizza) => {
       try {
-        await deleteTopping({
+        await deletePizza({
           variables: {
-            deleteToppingInput: {
-              id: selectedTopping.id,
+            deletePizzaInput: {
+              id: selectedPizza.id,
             },
           },
         });
@@ -51,18 +51,20 @@ const usePizzaMutations = (): UsePizzaMutationsOutput => {
         console.log(err);
       }
     },
-    [deleteTopping]
+    [deletePizza]
   );
 
-  const onUpdateTopping = useCallback(
-    (selectedTopping) => {
+  const onUpdatePizza = useCallback(
+    (selectedPizza) => {
       try {
-        updateTopping({
+        updatePizza({
           variables: {
-            updateToppingInput: {
-              id: selectedTopping.id,
-              name: selectedTopping?.name,
-              priceCents: selectedTopping?.priceCents,
+            updatePizzaInput: {
+              id: selectedPizza.id,
+              name: selectedPizza?.name,
+              description: selectedPizza?.description,
+              toppingIds: selectedPizza?.toppingIds,
+              ImgSrc: selectedPizza?.ImgSrc,
             },
           },
         });
@@ -70,10 +72,10 @@ const usePizzaMutations = (): UsePizzaMutationsOutput => {
         console.log(err);
       }
     },
-    [updateTopping]
+    [updatePizza]
   );
-*/
-  return { onCreatePizza };
+
+  return { onCreatePizza, onDeletePizza, onUpdatePizza };
 };
 
 export default usePizzaMutations;

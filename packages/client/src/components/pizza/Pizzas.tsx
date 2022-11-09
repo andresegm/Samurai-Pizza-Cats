@@ -7,11 +7,16 @@ import { Pizza } from '../../types';
 import { GET_PIZZAS } from '../../hooks/graphql/pizza/queries/get-pizzas';
 import PageHeader from '../common/PageHeader';
 import PizzaItem from './PizzaItem';
+import PizzaModal from './PizzaModal';
 
 const Pizzas: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
   const [selectedPizza, setSelectedPizza] = React.useState<Partial<Pizza>>();
+
   function selectPizza(pizza?: Pizza): void {
     setSelectedPizza(pizza);
+    setOpen(true);
+    console.log(pizza?.name); //not selecting the pizza correctly
   }
 
   const { loading, error, data } = useQuery(GET_PIZZAS);
@@ -26,16 +31,16 @@ const Pizzas: React.FC = () => {
   }
 
   const PizzaList = data?.pizzas.map((pizza: Pizza) => (
-    <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} onClick={selectPizza} />
+    <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} onClick={selectPizza} pizza={pizza} />
   ));
 
   return (
-    <Grid>
-      <Container maxWidth="md">
-        <PageHeader pageHeader={'Pizzas'} />
-        {PizzaList}
-      </Container>
-    </Grid>
+    <Container maxWidth="md">
+      <PageHeader pageHeader={'Pizzas'} />
+      <Grid>{PizzaList}</Grid>
+
+      <PizzaModal selectedPizza={selectedPizza} setSelectedPizza={setSelectedPizza} open={open} setOpen={setOpen} />
+    </Container>
   );
 };
 
