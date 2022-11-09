@@ -72,13 +72,11 @@ const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: PizzaMod
               onChange={(event): void => setSelectedPizza({ ...selectedPizza, name: event.target.value })}
             />
             <TextField
-              id="price-input"
-              label="Pizza Price in Cents"
-              type="number"
-              defaultValue={selectedPizza?.priceCents}
-              onChange={(event): void =>
-                setSelectedPizza({ ...selectedPizza, priceCents: parseInt(event.target.value) })
-              }
+              id="description-input"
+              label="Pizza's Description "
+              type="string"
+              defaultValue={selectedPizza?.description}
+              onChange={(event): void => setSelectedPizza({ ...selectedPizza, description: event.target.value })}
             />
             <IconButton
               edge="end"

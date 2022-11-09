@@ -31,14 +31,16 @@ const Pizzas: React.FC = () => {
   }
 
   const PizzaList = data?.pizzas.map((pizza: Pizza) => (
-    <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} onClick={selectPizza} pizza={pizza} />
+    <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} handleOpen={selectPizza} />
   ));
 
   return (
     <Container maxWidth="md">
       <PageHeader pageHeader={'Pizzas'} />
-      <Grid>{PizzaList}</Grid>
-
+      <Grid>
+        <PizzaItem key="add-pizza" handleOpen={selectPizza} />
+        {PizzaList}
+      </Grid>
       <PizzaModal selectedPizza={selectedPizza} setSelectedPizza={setSelectedPizza} open={open} setOpen={setOpen} />
     </Container>
   );
