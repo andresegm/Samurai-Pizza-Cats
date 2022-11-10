@@ -1,17 +1,6 @@
 import React from 'react';
-import { Field, Form, Formik, FormikProps } from 'formik';
-import { AddCircle, Delete } from '@material-ui/icons';
-import {
-  Backdrop,
-  createStyles,
-  Fade,
-  IconButton,
-  makeStyles,
-  Modal,
-  Paper,
-  TextField,
-  Theme,
-} from '@material-ui/core';
+import { Field, Formik, FormikProps } from 'formik';
+import { Backdrop, createStyles, Fade, IconButton, makeStyles, Modal, Paper, Theme } from '@material-ui/core';
 
 import usePizzaMutations from '../../hooks/pizza/use-pizza-mutations';
 
@@ -43,7 +32,7 @@ interface PizzaModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: PizzaModalProps): JSX.Element => {
+const PizzaModal = ({ selectedPizza, open, setOpen }: PizzaModalProps): JSX.Element => {
   const classes = useStyles();
 
   const { onCreatePizza, onDeletePizza, onUpdatePizza } = usePizzaMutations();
@@ -64,50 +53,82 @@ const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: PizzaMod
       <Fade in={open}>
         <Paper className={classes.paper}>
           <h2>{selectedPizza ? 'Edit' : 'Add'} Pizza</h2>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              id="name-input"
-              label="Pizza Name"
-              defaultValue={selectedPizza?.name}
-              onChange={(event): void => setSelectedPizza({ ...selectedPizza, name: event.target.value })}
-            />
-            <TextField
-              id="description-input"
-              label="Pizza's Description "
-              type="string"
-              defaultValue={selectedPizza?.description}
-              onChange={(event): void => setSelectedPizza({ ...selectedPizza, description: event.target.value })}
-            />
-            <TextField
-              id="imgSrc-input"
-              label="Pizza's Image Source "
-              type="string"
-              defaultValue={selectedPizza?.imgSrc}
-              onChange={(event): void => setSelectedPizza({ ...selectedPizza, imgSrc: event.target.value })}
-            />
-            <IconButton
-              edge="end"
-              aria-label="update"
-              type="button"
-              onClick={(): void => {
-                selectedPizza?.id ? onUpdatePizza(selectedPizza) : onCreatePizza(selectedPizza);
+          <br />
+          <h3>Details</h3>
+          <Formik
+            initialValues={{
+              name: selectedPizza?.name,
+              description: selectedPizza?.description,
+              imgSrc: selectedPizza?.imgSrc,
+              toppingIds: selectedPizza?.toppingIds,
+            }}
+            enableReinitialize
+            onSubmit={(values): void => {
+              if (selectedPizza?.id) {
+                const inputPizza = { id: selectedPizza.id, ...values };
+                onUpdatePizza(inputPizza);
                 setOpen(false);
-              }}
-            >
-              <AddCircle />
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="delete"
-              type="button"
-              onClick={(): void => {
-                onDeletePizza(selectedPizza);
+              } else {
+                onCreatePizza(values);
                 setOpen(false);
-              }}
-            >
-              <Delete />
-            </IconButton>
-          </form>
+              }
+            }}
+          >
+            {(props: FormikProps<any>): JSX.Element => (
+              <form onSubmit={props.handleSubmit} className={classes.root} noValidate autoComplete="off">
+                <p>
+                  <label>Name</label>
+                  <Field
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    onChange={props.handleChange}
+                    value={props.values.name}
+                  />
+                </p>
+                <p>
+                  <label>Description</label>
+                  <Field
+                    id="description"
+                    name="description"
+                    placeholder="Description"
+                    onChange={props.handleChange}
+                    value={props.values.description}
+                  />
+                </p>
+                <p>
+                  <label>Image URL</label>
+                  <Field
+                    id="imgSrc"
+                    name="imgSrc"
+                    placeholder="Image URL"
+                    onChange={props.handleChange}
+                    value={props.values.imgSrc}
+                  />
+                </p>
+                <p>
+                  <label>Topping Ids</label>
+                  <Field
+                    id="toppingIds"
+                    name="toppingIds"
+                    placeholder="Topping Ids"
+                    onChange={props.handleChange}
+                    value={props.values.toppingIds}
+                  />
+                </p>
+                <IconButton type="submit">Submit</IconButton>
+                <IconButton
+                  onClick={(): void => {
+                    onDeletePizza(selectedPizza);
+                    setOpen(false);
+                  }}
+                  type="button"
+                >
+                  Delete
+                </IconButton>
+              </form>
+            )}
+          </Formik>
         </Paper>
       </Fade>
     </Modal>
