@@ -1,8 +1,23 @@
 import React from 'react';
 import { Field, Formik, FormikProps } from 'formik';
-import { Backdrop, createStyles, Fade, IconButton, makeStyles, Modal, Paper, Theme } from '@material-ui/core';
-
+import {
+  Backdrop,
+  createStyles,
+  Fade,
+  FormControl,
+  IconButton,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Modal,
+  Paper,
+  Select,
+  Theme,
+} from '@material-ui/core';
+import { GET_TOPPINGS } from '../../hooks/graphql/topping/queries/get-toppings';
 import usePizzaMutations from '../../hooks/pizza/use-pizza-mutations';
+import { useQuery } from '@apollo/client';
+import { Topping } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,6 +51,8 @@ const PizzaModal = ({ selectedPizza, open, setOpen }: PizzaModalProps): JSX.Elem
   const classes = useStyles();
 
   const { onCreatePizza, onDeletePizza, onUpdatePizza } = usePizzaMutations();
+  const { data } = useQuery(GET_TOPPINGS);
+  const toppings = data?.toppings.map((topping: Topping) => topping);
 
   return (
     <Modal
@@ -69,6 +86,7 @@ const PizzaModal = ({ selectedPizza, open, setOpen }: PizzaModalProps): JSX.Elem
                 onUpdatePizza(inputPizza);
                 setOpen(false);
               } else {
+                console.log(values);
                 onCreatePizza(values);
                 setOpen(false);
               }
@@ -106,16 +124,25 @@ const PizzaModal = ({ selectedPizza, open, setOpen }: PizzaModalProps): JSX.Elem
                     value={props.values.imgSrc}
                   />
                 </p>
-                <p>
-                  <label>Topping Ids</label>
-                  <Field
-                    id="toppingIds"
-                    name="toppingIds"
-                    placeholder="Topping Ids"
-                    onChange={props.handleChange}
-                    value={props.values.toppingIds}
-                  />
-                </p>
+                <div>
+                  <FormControl style={{ width: '30ch' }}>
+                    <InputLabel>Toppings</InputLabel>
+                    <Select
+                      labelId="toppingIds"
+                      name="toppingIds"
+                      id="toppingIds"
+                      multiple
+                      value={props.values.toppingIds || []}
+                      onChange={props.handleChange}
+                    >
+                      {toppings.map((topping: Topping) => (
+                        <MenuItem key={topping.id} value={topping.id}>
+                          {topping.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
                 <IconButton type="submit">Submit</IconButton>
                 <IconButton
                   onClick={(): void => {
