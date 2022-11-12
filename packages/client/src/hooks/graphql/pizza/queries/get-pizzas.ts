@@ -6,6 +6,7 @@ const GET_PIZZAS = gql`
       name
       description
       priceCents
+      toppingIds
       toppings {
         name
         id

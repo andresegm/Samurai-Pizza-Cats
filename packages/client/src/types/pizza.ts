@@ -1,3 +1,4 @@
+import { ObjectId } from 'bson';
 import { Topping } from './schema';
 
 export interface Pizza {
@@ -7,4 +8,5 @@ export interface Pizza {
   imgSrc: string;
   toppings: Topping[];
   priceCents: number;
+  toppingIds: ObjectId[];
 }
