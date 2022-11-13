@@ -14,6 +14,7 @@ describe('Pizzas', () => {
     return {
       ...view,
       $findPizzaItems: () => screen.findAllByTestId(/^pizza-item-/),
+      $seeLoadingPizza: () => screen.queryByTestId(/^pizza-list-loading/),
     };
   };
 
@@ -39,5 +40,11 @@ describe('Pizzas', () => {
   test('should display a list of pizzas', async () => {
     const { $findPizzaItems } = renderPizzaList();
     expect($findPizzaItems()).resolves.toHaveLength(2);
+  });
+
+  test('should see loading state', async () => {
+    const { $seeLoadingPizza } = renderPizzaList();
+    expect($seeLoadingPizza()).toBeVisible();
+    expect($seeLoadingPizza()).not.toBeNull();
   });
 });
