@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { Container, Grid } from '@material-ui/core';
 
-import CardItemSkeleton from '../common//CardItemSkeleton';
+import CardItemSkeleton from '../common/CardItemSkeleton';
 import { Pizza } from '../../types';
 import { GET_PIZZAS } from '../../hooks/graphql/pizza/queries/get-pizzas';
 import PageHeader from '../common/PageHeader';
@@ -26,7 +26,7 @@ const Pizzas: React.FC = () => {
   }
 
   if (loading) {
-    return <CardItemSkeleton data-testid="pizza-list-loading" />;
+    return <CardItemSkeleton data-testid="pizza-list-loading">Loading ...</CardItemSkeleton>;
   }
 
   const PizzaList = data?.pizzas.map((pizza: Pizza) => (
