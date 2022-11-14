@@ -15,12 +15,12 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza, handleOpen }) => {
   };
   if (pizza) {
     return (
-      <CardItem onClick={(): void => handleOpen(pizza)}>
-        <h2>{pizza?.name}</h2>
+      <CardItem data-testid={`pizza-cardItem-${pizza?.id}`} onClick={(): void => handleOpen(pizza)}>
+        <h2 data-testid={`pizza-name-${pizza?.id}`}>{pizza?.name}</h2>
         <img src={pizza?.imgSrc} style={{ maxWidth: 300, maxHeight: 300 }}></img>
-        <p>{pizza?.description}</p>
-        <p> {pizza?.toppings ? pizzaToppings(pizza) : ''}</p>
-        <p>{pizza ? toDollars(pizza.priceCents) : ''} </p>
+        <p data-testid={`pizza-description-${pizza?.id}`}>{pizza?.description}</p>
+        <p data-testid={`pizza-toppings-${pizza?.id}`}> {pizza?.toppings ? pizzaToppings(pizza) : ''}</p>
+        <p data-testid={`pizza-price-${pizza?.id}`}>{pizza ? toDollars(pizza.priceCents) : ''} </p>
       </CardItem>
     );
   } else {
