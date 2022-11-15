@@ -2,6 +2,7 @@ import { Pizza } from '../../types';
 import CardItem from '../common/CardItem';
 import toDollars from '../../lib/format-dollars';
 import { AddCircle } from '@material-ui/icons';
+import { CardMedia, Grid } from '@material-ui/core';
 
 export interface PizzaItemProps {
   pizza?: Pizza;
@@ -15,13 +16,18 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza, handleOpen }) => {
   };
   if (pizza) {
     return (
-      <CardItem data-testid={`pizza-cardItem-${pizza?.id}`} onClick={(): void => handleOpen(pizza)}>
-        <h2 data-testid={`pizza-name-${pizza?.id}`}>{pizza?.name}</h2>
-        <img src={pizza?.imgSrc} style={{ maxWidth: 300, maxHeight: 300 }}></img>
-        <p data-testid={`pizza-description-${pizza?.id}`}>{pizza?.description}</p>
-        <p data-testid={`pizza-toppings-${pizza?.id}`}> {pizza?.toppings ? pizzaToppings(pizza) : ''}</p>
-        <p data-testid={`pizza-price-${pizza?.id}`}>{pizza ? toDollars(pizza.priceCents) : ''} </p>
-      </CardItem>
+      <Grid item xs={12} md={6} lg={4}>
+        <CardItem data-testid={`pizza-cardItem-${pizza?.id}`} onClick={(): void => handleOpen(pizza)}>
+          <h2 data-testid={`pizza-name-${pizza?.id}`}>{pizza?.name}</h2>
+          <CardMedia component="img" alt="pizza" height="250" image={pizza?.imgSrc} />
+          <p data-testid={`pizza-description-${pizza?.id}`}>{pizza?.description}</p>
+          <br />
+          <p data-testid={`pizza-toppings-${pizza?.id}`}> {pizza?.toppings ? pizzaToppings(pizza) : ''}</p>
+          <br />
+          <br />
+          <p data-testid={`pizza-price-${pizza?.id}`}>{pizza ? toDollars(pizza.priceCents) : ''} </p>
+        </CardItem>
+      </Grid>
     );
   } else {
     return (

@@ -34,10 +34,12 @@ const Pizzas: React.FC = () => {
   ));
 
   return (
-    <Container maxWidth="md">
+    <Container>
       <PageHeader pageHeader={'Pizzas'} />
-      <Grid>
-        <PizzaItem key="add-pizza" handleOpen={selectPizza} />
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6} lg={4}>
+          <PizzaItem key="add-pizza" handleOpen={selectPizza} />
+        </Grid>
         {PizzaList}
       </Grid>
       <PizzaModal selectedPizza={selectedPizza} setSelectedPizza={setSelectedPizza} open={open} setOpen={setOpen} />
