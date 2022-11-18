@@ -12,13 +12,18 @@ const typeDefs = gql`
   }
 
   type Query {
-    pizzas: [Pizza!]!
+    pizzas(input: QueryInput!): Result!
   }
 
   type Mutation {
     createPizza(input: CreatePizzaInput!): Pizza!
     updatePizza(input: UpdatePizzaInput!): Pizza!
     deletePizza(input: DeletePizzaInput!): ObjectID!
+  }
+
+  input QueryInput {
+    cursor: String!
+    limit: Int!
   }
 
   input CreatePizzaInput {
@@ -42,3 +47,5 @@ const typeDefs = gql`
 `;
 
 export { typeDefs };
+
+//changing the Query schema breaks my pizzas page
