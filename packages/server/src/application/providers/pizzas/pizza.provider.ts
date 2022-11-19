@@ -3,11 +3,22 @@ import { PizzaDocument, toPizzaObject } from '../../../entities/pizza';
 import { CreatePizzaInput, UpdatePizzaInput, Pizza } from './pizza.provider.types';
 import validateStringInputs from '../../../lib/string-validator';
 import { ToppingProvider } from '../toppings/topping.provider';
+import { QueryInput, Result } from '../cursor/cursor.provider.types';
+import { CursorProvider } from '../cursor/cursor.provider';
 
 class PizzaProvider {
-  constructor(private collection: Collection<PizzaDocument>, private toppingProvider: ToppingProvider) {}
+  constructor(
+    private collection: Collection<PizzaDocument>,
+    private toppingProvider: ToppingProvider,
+    private cursorProvider: CursorProvider
+  ) {}
 
-  public async getPizzas(): Promise<Pizza[]> {
+  public async getPizzas(input: QueryInput): Promise<Result> {
+    const { cursor, limit } = input;
+    return this.cursorProvider.getCursorResult(cursor, limit);
+  }
+
+  public async getAllPizzas(): Promise<Pizza[]> {
     const pizzas = await this.collection.find().sort({ name: 1 }).toArray();
     return pizzas.map(toPizzaObject);
   }

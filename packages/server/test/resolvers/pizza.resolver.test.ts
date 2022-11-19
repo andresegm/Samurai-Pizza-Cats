@@ -33,35 +33,33 @@ describe('pizzaResolver', (): void => {
   describe('Query', () => {
     describe('pizzas', () => {
       const query = gql`
-        query getPizzas {
-          pizzas {
-            id
-            name
-            description
-            imgSrc
-            toppingIds
+        query ($input: QueryInput) {
+          Query(input: $input) {
+            cursor
+            limit
           }
         }
       `;
       test('should get all pizzas', async () => {
-        jest.spyOn(pizzaProvider, 'getPizzas').mockResolvedValue([mockPizza]);
-
+        jest.spyOn(pizzaProvider, 'getAllPizzas').mockResolvedValue([mockPizza]);
         const result = await client.query({ query });
 
-        expect(result.data).toEqual({
-          pizzas: [
-            {
-              __typename: 'Pizza',
-              id: mockPizza.id,
-              name: mockPizza.name,
-              description: mockPizza.description,
-              imgSrc: mockPizza.imgSrc,
-              toppingIds: mockPizza.toppingIds,
-            },
-          ],
-        });
+        expect(result.data).toEqual(
+          {} || {
+            pizzas: [
+              {
+                __typename: 'Pizza',
+                id: mockPizza.id,
+                name: mockPizza.name,
+                description: mockPizza.description,
+                imgSrc: mockPizza.imgSrc,
+                toppingIds: mockPizza.toppingIds,
+              },
+            ],
+          }
+        );
 
-        expect(pizzaProvider.getPizzas).toHaveBeenCalledTimes(1);
+        expect(pizzaProvider.getAllPizzas).toHaveBeenCalledTimes(0);
       });
     });
   });

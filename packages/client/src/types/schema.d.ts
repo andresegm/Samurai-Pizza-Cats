@@ -81,8 +81,25 @@ export type Pizza = {
 
 export type Query = {
   __typename?: 'Query';
-  pizzas: Array<Pizza>;
+  pizzas: Result;
   toppings: Array<Topping>;
+};
+
+export type QueryPizzasArgs = {
+  input: QueryInput;
+};
+
+export type QueryInput = {
+  cursor: Scalars['String'];
+  limit: Scalars['Int'];
+};
+
+export type Result = {
+  __typename?: 'Result';
+  cursor?: Maybe<Scalars['ObjectID']>;
+  hasNextPage: Scalars['Boolean'];
+  results: Array<Pizza>;
+  totalCount: Scalars['Int'];
 };
 
 export type Topping = {

@@ -6,11 +6,14 @@ import { PizzaProvider } from '../../src/application/providers/pizzas/pizza.prov
 import { mockSortToArray } from '../helpers/mongo.helper';
 import { createMockPizzaDocument } from '../helpers/pizza.helper';
 import { PizzaDocument, toPizzaObject } from '../../src/entities/pizza';
+import { CursorProvider } from 'src/application/providers/cursor/cursor.provider';
+import { QueryInput } from 'src/application/providers/cursor/cursor.provider.types';
 
 const stubPizzaCollection = stub<Collection<PizzaDocument>>();
 const stubToppingProvider = stub<ToppingProvider>();
+const stubCursorProvider = stub<CursorProvider>();
 
-const pizzaProvider = new PizzaProvider(stubPizzaCollection, stubToppingProvider);
+const pizzaProvider = new PizzaProvider(stubPizzaCollection, stubToppingProvider, stubCursorProvider);
 
 beforeEach(jest.clearAllMocks);
 
@@ -23,15 +26,21 @@ describe('pizzaProvider', (): void => {
       reveal(stubPizzaCollection).find.mockImplementation(mockSortToArray([mockPizzaDocument]));
     });
     test('should call find once', async () => {
-      await pizzaProvider.getPizzas();
+      await pizzaProvider.getPizzas({
+        cursor: '9377cfa68a1c735c5730bb20',
+        limit: 17,
+      });
 
-      expect(stubPizzaCollection.find).toHaveBeenCalledTimes(1);
+      expect(stubCursorProvider.getCursorResult).toHaveBeenCalledTimes(1);
     });
 
     test('should get all pizzas', async () => {
-      const result = await pizzaProvider.getPizzas();
+      await pizzaProvider.getPizzas({
+        cursor: '',
+        limit: 17,
+      });
 
-      expect(result).toEqual([mockPizza]);
+      expect(stubCursorProvider.getCursorResult).toHaveBeenCalledTimes(1);
     });
   });
 
