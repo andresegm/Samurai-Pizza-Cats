@@ -18,6 +18,11 @@ class PizzaProvider {
     return this.cursorProvider.getCursorResult(cursor, limit);
   }
 
+  public async getAllPizzas(): Promise<Pizza[]> {
+    const pizzas = await this.collection.find().sort({ name: 1 }).toArray();
+    return pizzas.map(toPizzaObject);
+  }
+
   public async createPizza(input: CreatePizzaInput): Promise<Pizza> {
     const { name, description, imgSrc, toppingIds } = input;
     validateStringInputs([name, description, imgSrc]);
