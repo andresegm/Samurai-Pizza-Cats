@@ -18,10 +18,11 @@ const Pizzas: React.FC = () => {
     setOpen(true);
   }
 
-  const { loading, error, data } = useQuery(GET_PIZZAS);
+  const { loading, error, data } = useQuery(GET_PIZZAS); //I think it is expecting me to add variables here
+  //e.g. useQuery(GET_PIZZAS, {variables: { cursor: "", limit: 5}});
 
   if (error) {
-    console.error(error);
+    console.log(JSON.stringify(error, null, 2));
     return <div>Error!</div>;
   }
 

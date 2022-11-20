@@ -47,5 +47,3 @@ const typeDefs = gql`
 `;
 
 export { typeDefs };
-
-//changing the Query schema breaks my pizzas page
