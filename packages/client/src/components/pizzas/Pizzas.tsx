@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { Container, Grid } from '@material-ui/core';
+import { Button, Container, Grid } from '@material-ui/core';
 
 import CardItemSkeleton from '../common/CardItemSkeleton';
 import { Pizza } from '../../types';
@@ -18,8 +18,7 @@ const Pizzas: React.FC = () => {
     setOpen(true);
   }
 
-  const { loading, error, data } = useQuery(GET_PIZZAS); //I think it is expecting me to add variables here
-  //e.g. useQuery(GET_PIZZAS, {variables: { cursor: "", limit: 5}});
+  const { loading, error, data, fetchMore } = useQuery(GET_PIZZAS, { variables: { input: { cursor: '', limit: 5 } } });
 
   if (error) {
     console.log(JSON.stringify(error, null, 2));
@@ -30,9 +29,33 @@ const Pizzas: React.FC = () => {
     return <CardItemSkeleton data-testid="pizza-list-loading">Loading ...</CardItemSkeleton>;
   }
 
-  const PizzaList = data?.pizzas.map((pizza: Pizza) => (
+  const PizzaList = data?.pizzas.results.map((pizza: Pizza) => (
     <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} handleOpen={selectPizza} />
   ));
+
+  const hasNextPage = data.pizzas.hasNextPage;
+
+  function onLoadMore() {
+    fetchMore({
+      variables: {
+        input: {
+          cursor: data.pizzas.cursor,
+          limit: 5,
+        },
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          pizzas: {
+            cursor: fetchMoreResult.pizzas.cursor,
+            hasNextPage: fetchMoreResult.pizzas.hasNextPage,
+            totalCount: data.pizzas.totalCount,
+            results: [...prev.pizzas.results, ...fetchMoreResult.pizzas.results],
+          },
+        };
+      },
+    });
+  }
 
   return (
     <Container>
@@ -42,6 +65,12 @@ const Pizzas: React.FC = () => {
           <PizzaItem key="add-pizza" handleOpen={selectPizza} />
         </Grid>
         {PizzaList}
+        <br></br>
+        {hasNextPage && (
+          <Button onClick={onLoadMore} disabled={!hasNextPage}>
+            load more
+          </Button>
+        )}
       </Grid>
       <PizzaModal selectedPizza={selectedPizza} setSelectedPizza={setSelectedPizza} open={open} setOpen={setOpen} />
     </Container>
