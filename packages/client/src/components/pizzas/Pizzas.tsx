@@ -57,6 +57,12 @@ const Pizzas: React.FC = () => {
     });
   }
 
+  const buttonStyle = {
+    padding: '20px',
+    border: '1px solid grey',
+    margin: '10px',
+  };
+
   return (
     <Container>
       <PageHeader pageHeader={'Pizzas'} />
@@ -65,13 +71,16 @@ const Pizzas: React.FC = () => {
           <PizzaItem key="add-pizza" handleOpen={selectPizza} />
         </Grid>
         {PizzaList}
-        <br></br>
+        <br />
+      </Grid>
+      <br />
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {hasNextPage && (
-          <Button onClick={onLoadMore} disabled={!hasNextPage}>
+          <Button onClick={onLoadMore} disabled={!hasNextPage} style={buttonStyle}>
             load more
           </Button>
         )}
-      </Grid>
+      </div>
       <PizzaModal selectedPizza={selectedPizza} setSelectedPizza={setSelectedPizza} open={open} setOpen={setOpen} />
     </Container>
   );
