@@ -76,7 +76,13 @@ const Pizzas: React.FC = () => {
       <br />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {hasNextPage && (
-          <Button onClick={onLoadMore} disabled={!hasNextPage} style={buttonStyle}>
+          <Button
+            data-testid={'load-more'}
+            type="button"
+            onClick={onLoadMore}
+            disabled={!hasNextPage}
+            style={buttonStyle}
+          >
             load more
           </Button>
         )}
