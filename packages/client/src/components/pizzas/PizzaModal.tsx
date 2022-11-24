@@ -124,6 +124,7 @@ const PizzaModal = ({ selectedPizza, open, setOpen }: PizzaModalProps): JSX.Elem
                     value={props.values.imgSrc}
                   />
                 </p>
+                <br></br>
                 <div>
                   <FormControl style={{ width: '30ch' }}>
                     <InputLabel>Toppings</InputLabel>

@@ -33,6 +33,11 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza, handleOpen }) => {
     return (
       <CardItem onClick={(): void => handleOpen(pizza)}>
         <h2>Create Pizza</h2>
+        <img
+          width="350"
+          src="https://images.squarespace-cdn.com/content/v1/5a6a74ffe45a7cb3647a68e7/1614991332750-BRVXQ4FOY5AZNZZO6CLS/Catana+Wave.JPG?format=750w"
+        />
+        <br />
         <AddCircle />
       </CardItem>
     );
